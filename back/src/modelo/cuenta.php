@@ -55,25 +55,35 @@ class cuenta
         $conexion = new Conexion();
         $cuentaDAO = new cuentaDAO($conexion);
         $sql = $cuentaDAO->obtenerCuentaPorIdUsuario($this->id_usuario);
-        $conexion->ejecutar($sql);
-        $fila = $conexion->registro();
-        if ($fila) {
-            $this->saldo = $fila['saldo'];
-            $this->id_usuario = $fila['id_usuario'];
-        } else {
-            return null;
-        }   
-        $conexion->cerrar();
+        try{
+            $conexion->ejecutar($sql);
+            $fila = $conexion->registro();
+            if ($fila) {
+                $this->saldo = $fila['saldo'];
+                $this->id_usuario = $fila['id_usuario'];
+            } else {
+                return null;
+            }   
+            $conexion->cerrar();
+
+        }catch(Exception $e){
+            $e->getMessage();
+        }
+
     }
 
-    public function modificarSaldo($nuevo_saldo)
+    public function modificarSaldo($cuenta, $nuevo_saldo)
     {
         $conexion = new Conexion();
         $cuentaDAO = new cuentaDAO($conexion);
-        $sql = $cuentaDAO->modificarSaldo($this->id_cuenta, $nuevo_saldo);
-        $conexion->ejecutar($sql);
-        $this->saldo = $nuevo_saldo;
-        $conexion->cerrar();
+        $sql = $cuentaDAO->modificarSaldo($cuenta->getIdCuenta, $nuevo_saldo);
+        try{
+            $conexion->ejecutar($sql);
+            $this->saldo = $nuevo_saldo;
+            $conexion->cerrar();
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
 
     public function crearCuenta()

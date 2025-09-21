@@ -1,0 +1,16 @@
+{
+    "name": "mateocardenas/wallet-back",
+    "description": "Backend para aplicacion wallet",
+    "autoload": {
+        "psr-4": {
+            "Mateocardenas\\WalletBack\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mateo Cardenas",
+            "email": "mateo.cardenas.pedraza@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -18,4 +18,9 @@ class usuarioDAO
     {
         return "SELECT * FROM usuario WHERE telefono = '$tel' AND clave = '". md5($clave)."'";
     }
+
+    public function obtenerUsuarioTel($tel)
+    {
+        return "SELECT telefono FROM usuario WHERE telefono = '$tel'";
+    }
 }

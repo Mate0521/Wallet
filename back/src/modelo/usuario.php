@@ -92,6 +92,27 @@ class Usuario
         $conexion->cerrar();
     }
 
+    public function obtenerUsuarioTel()
+    {
+        $conexion = new Conexion();
+        $usuarioDAO = new usuarioDAO($conexion);
+        $sql = $usuarioDAO->obtenerUsuarioTel($this->telefono);
+        $conexion->ejecutar($sql);
+        $fila = $conexion->registro();
+        if ($fila) {
+            $this->id_usuario = $fila['id_usuario'];
+            $this->nombre = $fila['nombre'];
+            $this->apellidos = $fila['apellidos'];
+            $this->correo = $fila['correo'];
+            $this->telefono = $fila['telefono'];
+            $this->clave = $fila['clave'];
+            return $this;
+        } else {
+            return null;
+        }
+        $conexion->cerrar();
+    }
+
     public function obtenerUsuarioDestino($telefono)
     {
         $conexion = new Conexion();

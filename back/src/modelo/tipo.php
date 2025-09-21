@@ -6,7 +6,7 @@ class tipo
     private $id_tipo;
     private $nombre;
 
-    public function __construct($id_tipo, $nombre) {
+    public function __construct($id_tipo=null, $nombre=null) {
         $this->id_tipo = $id_tipo;
         $this->nombre = $nombre;
     }
@@ -22,5 +22,36 @@ class tipo
     public function setNombre($nombre) {
         $this->nombre = $nombre;
     }
+
+    public function obtenerNombre(){
+        $conexion = new Conexion();
+        $tipoDAO = new tipoDAO($conexion);
+        $sql = $tipoDAO->obtenerNombre($this->id_tipo);
+        $conexion->ejecutar($sql);
+        $fila = $conexion->registro();
+        if ($fila) {
+            $this->nombre = $fila['nombre'];
+            return $this;
+        } else {
+            return null;
+        }
+        $conexion->cerrar();
+    }
+
+    public function obtenerId() {
+        $conexion = new Conexion();
+        $tipoDAO = new tipoDAO($conexion);
+        $sql = $tipoDAO->obtenerId($this->nombre);
+        $conexion->ejecutar($sql);
+        $fila = $conexion->registro();
+        if ($fila) {
+            $this->id_tipo = $fila['id_tipo'];
+            return $this;
+        } else {
+            return null;
+        }
+        $conexion->cerrar();
+    }
+
 
 }

@@ -10,7 +10,7 @@ class transaccion
     private $id_cuenta;
     private $id_tipo;
 
-    public function __construct($id_transaccion, $monto, $destino, $fecha, $id_cuenta, $id_tipo) {
+    public function __construct($id_transaccion = null, $monto = null, $destino = null, $fecha=null, $id_cuenta=null, $id_tipo=null) {
         $this->id_transaccion = $id_transaccion;
         $this->monto = $monto;
         $this->destino = $destino;
@@ -54,4 +54,35 @@ class transaccion
     public function setIdTipo($id_tipo) {
         $this->id_tipo = $id_tipo;
     }
+
+    public function historialTransacciones()
+    {
+        $conexion = new Conexion();
+        $transaccionDAO = new transaccionDAO($conexion);
+        $sql = $transaccionDAO->obtenerTransaccionPorCuenta($this->id_cuenta);
+        $conexion->ejecutar($sql);
+        $transacciones = [];
+        while ($fila = $conexion->registro()) {
+            $transacciones[] = new transaccion(
+                $fila['id_transaccion'],
+                $fila['monto'],
+                $fila['destino'],
+                $fila['fecha'],
+                $fila['id_cuenta'],
+                $fila['id_tipo']
+            );
+        }
+        return $transacciones;
+        $conexion->cerrar();
+    }
+
+    public function insertarTransaccion()
+    {
+        $conexion = new Conexion();
+        $transaccionDAO = new transaccionDAO($conexion);
+        $sql = $transaccionDAO->insertarTransaccion($this);
+        $conexion->ejecutar($sql);
+        $conexion->cerrar();
+    }
+
 }

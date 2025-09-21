@@ -2,21 +2,17 @@
 
 class tipoDAO
 {
-    private $conexion;
 
-    public function __construct($conexion)
+    public function obtenerNombre($id)
     {
-        $this->conexion = $conexion;
+        return "SELECT * FROM tipo WHERE id_tipo = '$id'";
+
     }
 
-    public function obtenerTipos()
+    public function obtenerId($tipo)
     {
-        $sql = "SELECT * FROM tipo";
-        $this->conexion->ejecutarConsulta($sql);
-        $tipos = [];
-        while ($fila = $this->conexion->siguienteRegistro()) {
-            $tipos[] = new Tipo($fila[0], $fila[1]);
-        }
-        return $tipos;
+        return "SELECT * FROM tipo WHERE nombre = '$tipo'";
+
     }
+
 }

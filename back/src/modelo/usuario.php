@@ -10,7 +10,9 @@ class Usuario
     private $telefono;
     private $clave;
 
-    public function __construct($id_usuario, $nombre, $apellidos, $correo, $telefono, $clave) {
+
+    public function __construct($id_usuario=null, $nombre=null, $apellidos=null, $correo=null, $telefono=null, $clave=null) 
+    {
         $this->id_usuario = $id_usuario;
         $this->nombre = $nombre;
         $this->apellidos = $apellidos;
@@ -59,6 +61,56 @@ class Usuario
     public function setClave($clave) {
         $this->clave = $clave;
     }
+
+    public function autenticacion()
+    {
+        $conexion = new Conexion();
+        $usuarioDAO = new usuarioDAO($conexion);
+        $sql = $usuarioDAO->autenticacion($this->telefono, $this->clave);
+        $conexion->ejecutar($sql);
+        $fila = $conexion->registro();
+        if ($fila) {
+            $this->id_usuario = $fila['id_usuario'];
+            $this->nombre = $fila['nombre'];
+            $this->apellidos = $fila['apellidos'];
+            $this->correo = $fila['correo'];
+            $this->telefono = $fila['telefono'];
+            $this->clave = $fila['clave'];
+            return $this;
+        } else {
+            return null;
+        }
+        $conexion->cerrar();
+    }
+
+    public function crearUsuario()
+    {
+        $conexion = new Conexion();
+        $usuarioDAO = new usuarioDAO($conexion);
+        $sql = $usuarioDAO->crearUsuario($this);
+        $conexion->ejecutar($sql);
+        $conexion->cerrar();
+    }
+
+    public function obtenerUsuarioDestino($telefono)
+    {
+        $conexion = new Conexion();
+        $usuarioDAO = new usuarioDAO($conexion);
+        $sql = $usuarioDAO->obtenerUsuarioDestino($telefono);
+        $conexion->ejecutar($sql);
+        $fila = $conexion->registro();
+        if ($fila) {
+            $this->id_usuario = $fila['id_usuario'];
+            $this->nombre = $fila['nombre'];
+            $this->apellidos = $fila['apellidos'];
+            $this->telefono = $fila['telefono'];
+            return $this;
+        } else {
+            return null;
+        }
+        $conexion->cerrar();
+    }
+    
     
 }
 

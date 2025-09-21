@@ -2,52 +2,25 @@
 
 class cuentaDAO
 {
-    private $conexion;
+    
 
-    public function __construct($conexion) {
-        $this->conexion = $conexion;
+    //crear una nueva cuenta asociandola al usuario correspondiente 
+    public function crearCuenta ($id_usuario){
+        return "INSERT INTO cuenta (saldo, id_usuario) VALUES (0, '$id_usuario')";
     }
 
-    public function obtenerCuentaPorIdUsuario($id_usuario) {
-        $this->conexion->abrirConexion();
-        $consulta = "SELECT id_cuenta, saldo, id_usuario FROM cuenta WHERE id_usuario = ?";
-        $stmt = $this->conexion->mysqlConexion->prepare($consulta);
-        $stmt->bind_param("i", $id_usuario);
-        $stmt->execute();
-        $resultado = $stmt->get_result();
-        $cuenta = null;
-        if ($fila = $resultado->fetch_assoc()) {
-            $cuenta = new cuenta($fila['id_cuenta'], $fila['saldo'], $fila['id_usuario']);
-        }
-        $stmt->close();
-        $this->conexion->cerrarConexion();
-        return $cuenta;
+    //obtener la cuenta de un usuario por su id_cuenta
+    public function obtenerCuentaPorId($id_cuenta){
+        return "SELECT * FROM cuenta WHERE id_cuenta = '$id_cuenta'";
     }
 
-    public function actualizarSaldo($id_cuenta, $nuevo_saldo) {
-        $this->conexion->abrirConexion();
-        $consulta = "UPDATE cuenta SET saldo = ? WHERE id_cuenta = ?";
-        $stmt = $this->conexion->mysqlConexion->prepare($consulta);
-        $stmt->bind_param("di", $nuevo_saldo, $id_cuenta);
-        $exito = $stmt->execute();
-        $stmt->close();
-        $this->conexion->cerrarConexion();
-        return $exito;
+    //obtener la cuenta de un usuario por su id_usuario
+    public function obtenerCuentaPorIdUsuario($id_usuario){
+        return "SELECT * FROM cuenta WHERE id_usuario = '$id_usuario'";
     }
 
-    public function crearCuenta($saldo_inicial, $id_usuario) {
-        $this->conexion->abrirConexion();
-        $consulta = "INSERT INTO cuenta (saldo, id_usuario) VALUES (?, ?)";
-        $stmt = $this->conexion->mysqlConexion->prepare($consulta);
-        $stmt->bind_param("di", $saldo_inicial, $id_usuario);
-        $exito = $stmt->execute();
-        $nuevo_id = $this->conexion->obtenerLlaveAutonumerica();
-        $stmt->close();
-        $this->conexion->cerrarConexion();
-        if ($exito) {
-            return new cuenta($nuevo_id, $saldo_inicial, $id_usuario);
-        } else {
-            return null;
-        }
+    //modificar el saldo de una cuenta
+    public function modificarSaldo($id_cuenta, $nuevo_saldo){
+        return "UPDATE cuenta SET saldo = '$nuevo_saldo' WHERE id_cuenta = '$id_cuenta'";
     }
 }

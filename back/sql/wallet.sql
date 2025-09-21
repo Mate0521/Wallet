@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-09-2025 a las 07:47:04
+-- Tiempo de generación: 20-09-2025 a las 22:21:59
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cuenta` (
   `id_cuenta` int(11) NOT NULL,
-  `saldo` double NOT NULL,
+  `saldo` decimal(30,2) NOT NULL,
   `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -72,7 +72,7 @@ CREATE TABLE `usuario` (
   `fecha_nac` date NOT NULL,
   `telefono` varchar(10) NOT NULL,
   `email` varchar(30) NOT NULL,
-  `clave` varchar(50) NOT NULL COMMENT 'hashear'
+  `clave` varchar(255) NOT NULL COMMENT 'hashear'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

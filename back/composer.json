@@ -1,9 +1,9 @@
 {
-    "name": "mateocardenas/wallet-back",
-    "description": "Backend para aplicacion wallet",
+    "name": "mateocardenas/wallet-backend",
+    "description": "conexion con bd y demas comunicacion para responder a app android",
     "autoload": {
         "psr-4": {
-            "Mateocardenas\\WalletBack\\": "src/"
+            "Mateocardenas\\WalletBackend\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,8 @@
             "email": "mateo.cardenas.pedraza@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "slim/slim": "^4.15",
+        "slim/psr7": "^1.7"
+    }
 }

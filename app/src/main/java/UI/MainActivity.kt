@@ -1,4 +1,4 @@
-package control
+package UI
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -17,5 +17,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
     }
 }

@@ -2,11 +2,20 @@
 
 class cuentaDAO
 {
-    
+    private $id_cuenta;
+    private $saldo;
+    private $id_usuario;
+
+    public function __construct($id_cuenta=null, $saldo=null, $id_usuario=null) {
+        $this->id_cuenta = $id_cuenta;
+        $this->saldo = $saldo;
+        $this->id_usuario = $id_usuario;
+
+    }
 
     //crear una nueva cuenta asociandola al usuario correspondiente 
-    public function crearCuenta ($id_usuario){
-        return "INSERT INTO cuenta (saldo, id_usuario) VALUES (0, '$id_usuario')";
+    public function crearCuenta (){
+        return "INSERT INTO cuenta (saldo, id_usuario) VALUES (0, '$this->id_usuario')";
     }
 
     //obtener la cuenta de un usuario por su id_cuenta

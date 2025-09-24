@@ -36,8 +36,8 @@ class cuenta
     public function obtenerCuentaId()
     {
         $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO($conexion);
-        $sql = $cuentaDAO->obtenerCuentaPorId($this->id_cuenta);
+        $cuentaDAO = new cuentaDAO($this->id_cuenta);
+        $sql = $cuentaDAO->obtenerCuentaPorId();
         $conexion->ejecutar($sql);
         $fila = $conexion->registro();
         if ($fila) {
@@ -53,8 +53,8 @@ class cuenta
     public function obtenerCuentaIdUsuario()
     {
         $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO($conexion);
-        $sql = $cuentaDAO->obtenerCuentaPorIdUsuario($this->id_usuario);
+        $cuentaDAO = new cuentaDAO("","",$this->id_usuario);
+        $sql = $cuentaDAO->obtenerCuentaPorIdUsuario();
         try{
             $conexion->ejecutar($sql);
             $fila = $conexion->registro();
@@ -75,7 +75,7 @@ class cuenta
     public function modificarSaldo($cuenta, $nuevo_saldo)
     {
         $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO($conexion);
+        $cuentaDAO = new cuentaDAO();
         $sql = $cuentaDAO->modificarSaldo($cuenta->getIdCuenta, $nuevo_saldo);
         try{
             $conexion->ejecutar($sql);
@@ -89,8 +89,8 @@ class cuenta
     public function crearCuenta()
     {
         $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO($conexion);
-        $sql = $cuentaDAO->crearCuenta($this->id_usuario);
+        $cuentaDAO = new cuentaDAO("","",$this->id_usuario);
+        $sql = $cuentaDAO->crearCuenta();
         $conexion->ejecutar($sql);
         $conexion->cerrar();
     }

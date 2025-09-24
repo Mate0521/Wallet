@@ -24,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     }
 
-
 }
 
 //modulo para autenticar si es o no correcta alguna creedencial 

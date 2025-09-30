@@ -2,7 +2,9 @@
     "name": "mateocardenas/wallet_b",
     "description": "API de comunicacion con la palicacion wallet",
     "require": {
-        "slim/slim": "^4.15"
+        "slim/slim": "^4.15",
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.1"
     },
     "license": "MIT",
     "autoload": {

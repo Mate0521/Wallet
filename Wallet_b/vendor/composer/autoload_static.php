@@ -22,6 +22,11 @@ class ComposerStaticInit2f1a766ac5bc0f15e87e4b6a80b3882a
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
         ),
+        'N' => 
+        array (
+            'Nyholm\\Psr7\\' => 12,
+            'Nyholm\\Psr7Server\\' => 18,
+        ),
         'M' => 
         array (
             'Mateocardenas\\WalletB\\' => 22,
@@ -54,6 +59,14 @@ class ComposerStaticInit2f1a766ac5bc0f15e87e4b6a80b3882a
         'Psr\\Container\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Nyholm\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nyholm/psr7/src',
+        ),
+        'Nyholm\\Psr7Server\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nyholm/psr7-server/src',
         ),
         'Mateocardenas\\WalletB\\' => 
         array (

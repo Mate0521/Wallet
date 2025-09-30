@@ -3,17 +3,26 @@
         'name' => 'mateocardenas/wallet_b',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '1ad8c463ecadd74274baadb25917ec4c0bc79bb4',
+        'reference' => '4e52f0a0b73c826a5c4583d791191b9a6239a9df',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'fig/http-message-util' => array(
+            'pretty_version' => '1.1.5',
+            'version' => '1.1.5.0',
+            'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../fig/http-message-util',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'mateocardenas/wallet_b' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '1ad8c463ecadd74274baadb25917ec4c0bc79bb4',
+            'reference' => '4e52f0a0b73c826a5c4583d791191b9a6239a9df',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -27,30 +36,6 @@
             'install_path' => __DIR__ . '/../nikic/fast-route',
             'aliases' => array(),
             'dev_requirement' => false,
-        ),
-        'nyholm/psr7' => array(
-            'pretty_version' => '1.8.2',
-            'version' => '1.8.2.0',
-            'reference' => 'a71f2b11690f4b24d099d6b16690a90ae14fc6f3',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../nyholm/psr7',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'nyholm/psr7-server' => array(
-            'pretty_version' => '1.1.0',
-            'version' => '1.1.0.0',
-            'reference' => '4335801d851f554ca43fa6e7d2602141538854dc',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../nyholm/psr7-server',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'php-http/message-factory-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '1.0',
-            ),
         ),
         'psr/container' => array(
             'pretty_version' => '2.0.2',
@@ -73,7 +58,7 @@
         'psr/http-factory-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0',
+                0 => '^1.0',
             ),
         ),
         'psr/http-message' => array(
@@ -88,7 +73,7 @@
         'psr/http-message-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0',
+                0 => '^1.0 || ^2.0',
             ),
         ),
         'psr/http-server-handler' => array(
@@ -118,12 +103,39 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'ralouphie/getallheaders' => array(
+            'pretty_version' => '3.0.3',
+            'version' => '3.0.3.0',
+            'reference' => '120b605dfeb996808c31b6477290a714d356e822',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ralouphie/getallheaders',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'slim/psr7' => array(
+            'pretty_version' => '1.7.1',
+            'version' => '1.7.1.0',
+            'reference' => 'fe98653e7983010aa85c1d137c9b9ad5a1cd187d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../slim/psr7',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'slim/slim' => array(
             'pretty_version' => '4.15.0',
             'version' => '4.15.0.0',
             'reference' => '17eba5182975878a0ab9b27982cd2e2cfcb67ea2',
             'type' => 'library',
             'install_path' => __DIR__ . '/../slim/slim',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/polyfill-php80' => array(
+            'pretty_version' => 'v1.33.0',
+            'version' => '1.33.0.0',
+            'reference' => '0cc9dd0f17f61d8131e7df6b84bd344899fe2608',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/polyfill-php80',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

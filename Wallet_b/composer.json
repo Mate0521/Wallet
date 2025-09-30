@@ -1,0 +1,20 @@
+{
+    "name": "mateocardenas/wallet_b",
+    "description": "API de comunicacion con la palicacion wallet",
+    "require": {
+        "slim/slim": "^4.15"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Mateocardenas\\WalletB\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mateo Cardenas",
+            "email": "mateo.cardenas.pedraza@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}

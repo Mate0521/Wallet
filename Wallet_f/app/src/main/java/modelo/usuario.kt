@@ -1,6 +1,6 @@
 package modelo
 
-data class usuario(
+data class Usuario(
     val id_usuario: String,
     val nombre: String,
     val apellidos: String,

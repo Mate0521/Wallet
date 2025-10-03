@@ -2,7 +2,7 @@ package modelo
 
 import java.util.Date
 
-data class transaccion(
+data class Transaccion(
     val id_transaccion:String,
     val monto: Double,
     val destino:String,

@@ -1,7 +1,9 @@
-package network
+package data.network
 
-import modelo.*
-import modelo.res.*
+import data.modelo.login
+import data.modelo.Transaccion
+import data.modelo.Usuario
+import data.modelo.res.Entrada
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -15,11 +17,11 @@ interface ApiService {
 
     // CUENTA
     @POST("cuenta.php")
-    fun obtenerCuenta(@Body cuenta: Cuenta): Call<Map<String, Any>>
+    fun obtenerCuenta(@Body cuenta: login): Call<Map<String, Any>>
 
     // ENTRADA (ej. dashboard o datos iniciales)
     @POST("entrada.php")
-    fun traerDatos(@Body usuario: Usuario): Call<EntradaRes>
+    fun traerDatos(@Body usuario: Usuario): Call<Entrada>
 
     // HISTORIAL DE TRANSACCIONES
     @POST("historial.php")

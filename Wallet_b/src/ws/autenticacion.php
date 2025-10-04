@@ -17,10 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($usuario->autenticacion()) {
         http_response_code(200);
-        echo json_encode(array("mensaje" => "Autenticación exitosa"));
     } else {
         http_response_code(401);
-        echo json_encode(array("mensaje" => "Credenciales inválidas"));
         
     }
 

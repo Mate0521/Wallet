@@ -52,9 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $respuesta = $map[$part[0]]();
 
             if ($resultado) {
-                echo "operación exitosa";
+                http_response_code(200);
             } else {
-                echo "error al modificar saldo";
+                http_response_code(401);
             }
         } else {
             echo "accion no registrada";

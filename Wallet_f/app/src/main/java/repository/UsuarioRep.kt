@@ -1,8 +1,8 @@
 package repository
 
-import modelo.res.EntradaRes
-import modelo.Usuario
-import network.RetrofitClient
+import data.modelo.res.Entrada
+import data.modelo.Usuario
+import data.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,9 +26,9 @@ class UsuarioRep {
         })
     }
 
-    fun entrar(usuario: Usuario, callback: (exito: Boolean, datos: EntradaRes?, mensaje: String) -> Unit) {
-        api.traerDatos(usuario).enqueue(object : Callback<EntradaRes> {
-            override fun onResponse(call: Call<EntradaRes>, response: Response<EntradaRes>) {
+    fun entrar(usuario: Usuario, callback: (exito: Boolean, datos: Entrada?, mensaje: String) -> Unit) {
+        api.traerDatos(usuario).enqueue(object : Callback<Entrada> {
+            override fun onResponse(call: Call<Entrada>, response: Response<Entrada>) {
                 if (response.isSuccessful) {
                     val datosCompletos = response.body()
 
@@ -46,7 +46,7 @@ class UsuarioRep {
                 }
             }
 
-            override fun onFailure(call: Call<EntradaRes>, t: Throwable) {
+            override fun onFailure(call: Call<Entrada>, t: Throwable) {
                 // Error de red
                 callback(false, null, "Error de conexión: ${t.message}")
             }

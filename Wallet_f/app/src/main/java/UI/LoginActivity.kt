@@ -6,7 +6,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.ViewCompat
-import modelo.Usuario
+import data.modelo.Usuario
 import repository.UsuarioRep
 import com.example.wallet_f.R
 

@@ -7,4 +7,6 @@ data class usuario(
     val correo: String,
     val telefono: String,
     val clave: String
+
+
 )

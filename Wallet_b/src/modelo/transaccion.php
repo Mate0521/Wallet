@@ -1,89 +1,118 @@
 <?php 
 
+require_once 'src/conexion/conexion.php';
+require_once 'src/dao/tipoDAO.php';
+
 class transaccion
 {
 
-    private $id_transaccion;
+    private $id_cuenta;//
     private $monto;
-    private $destino;
-    private $fecha;
-    private $id_cuenta;
-    private $id_tipo;
+    private $fecha;//
+    private $tipo;
+    private $id_transaccion;
+    private $destino; //Destino
 
-    public function __construct($id_transaccion = null, $monto = null, $destino = null, $fecha=null, $id_cuenta=null, $id_tipo=null) {
-        $this->id_transaccion = $id_transaccion;
-        $this->monto = $monto;
-        $this->destino = $destino;
-        $this->fecha = $fecha;
+    public function __construct($id_cuenta = "", $monto = "", $fecha = "", $tipo = "", $id_transaccion = "", $destino = "")
+    {
         $this->id_cuenta = $id_cuenta;
-        $this->id_tipo = $id_tipo;
+        $this->monto = $monto;
+        $this->fecha = $fecha;
+        $this->tipo = $tipo;
+        $this->id_transaccion = $id_transaccion;
+        $this->destino = $destino;
     }
-    public function getIdTransaccion() {
-        return $this->id_transaccion;
-    }
-    public function getMonto() {
-        return $this->monto;
-    }
-    public function getDestino() {
-        return $this->destino;
-    }
-    public function getFecha() {
-        return $this->fecha;
-    }
-    public function getIdCuenta() {
+
+    /**
+     * Get the value of id_cuenta
+     */ 
+    public function getId_cuenta()
+    {
         return $this->id_cuenta;
     }
-    public function getIdTipo() {
-        return $this->id_tipo;
-    }
-    public function setIdTransaccion($id_transaccion) {
-        $this->id_transaccion = $id_transaccion;
-    }
-    public function setMonto($monto) {
-        $this->monto = $monto;
-    }
-    public function setDestino($destino) {
-        $this->destino = $destino;
-    }
-    public function setFecha($fecha) {
-        $this->fecha = $fecha;
-    }
-    public function setIdCuenta($id_cuenta) {
+
+    /**
+     * Set the value of id_cuenta
+     *
+     * @return  self
+     */ 
+    public function setId_cuenta($id_cuenta)
+    {
         $this->id_cuenta = $id_cuenta;
-    }
-    public function setIdTipo($id_tipo) {
-        $this->id_tipo = $id_tipo;
+
+        return $this;
     }
 
-    public function historialTransacciones()
+    /**
+     * Get the value of monto
+     */ 
+    public function getMonto()
     {
-        $conexion = new Conexion();
-        $transaccionDAO = new transaccionDAO($conexion);
-        $sql = $transaccionDAO->obtenerTransaccionPorCuenta($this->id_cuenta);
-        $conexion->ejecutar($sql);
-        $transacciones = [];
-        while ($fila = $conexion->registro()) {
-            $transacciones[] = new transaccion(
-                $fila['id_transaccion'],
-                $fila['monto'],
-                $fila['destino'],
-                $fila['fecha'],
-                $fila['id_cuenta'],
-                $fila['id_tipo']
-            );
-        }
-        return $transacciones;
+        return $this->monto;
+    }
+
+    /**
+     * Get the value of fecha
+     */ 
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
+     * Get the value of tipo
+     */ 
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Get the value of id_transaccion
+     */ 
+    public function getId_transaccion()
+    {
+        return $this->id_transaccion;
+    }
+
+    /**
+     * Get the value of destino
+     */ 
+    public function getDestino()
+    {
+        return $this->destino;
+    }
+
+    
+    public function Enviar()
+    {
+        $conexion = new conexion();
+        $transaccionDAO = new transaccionDAO(
+            $this->id_cuenta,
+            $this->monto,
+            $this->fecha,
+            $this->tipo,
+            $this->id_transaccion,
+            $this->destino
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($transaccionDAO->enviar());
         $conexion->cerrar();
     }
 
-    public function insertarTransaccion()
+    public function historial()
     {
-        $conexion = new Conexion();
-        $transaccionDAO = new transaccionDAO($conexion);
-        $sql = $transaccionDAO->insertarTransaccion($this);
-        $conexion->ejecutar($sql);
+        $conexion = new conexion();
+        $transaccionDAO = new transaccionDAO(
+            $this->id_cuenta,
+            $this->monto,
+            $this->fecha,
+            $this->tipo,
+            $this->id_transaccion,
+            $this->destino
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($transaccionDAO->historial());
         $conexion->cerrar();
     }
-
-
 }

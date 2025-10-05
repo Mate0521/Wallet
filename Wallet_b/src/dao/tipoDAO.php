@@ -12,13 +12,7 @@ class tipoDAO
 
     public function obtenerNombre()
     {
-        return "SELECT * FROM tipo WHERE id_tipo = '$this->id_tipo'";
-
-    }
-
-    public function obtenerId()
-    {
-        return "SELECT * FROM tipo WHERE nombre = '$this->nombre'";
+        return "SELECT nombre FROM tipo WHERE id_tipo = '$this->id_tipo'";
 
     }
 

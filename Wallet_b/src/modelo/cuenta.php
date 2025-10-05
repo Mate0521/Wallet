@@ -2,102 +2,79 @@
 class cuenta 
 {
     private $id_cuenta;
-    private $saldo;
     private $id_usuario;
+    private $saldo;
 
-
-    public function __construct($id_cuenta=null, $saldo=null, $id_usuario=null) {
+    public function __construct($id_cuenta = "", $id_usuario = "", $saldo = "")
+    {
         $this->id_cuenta = $id_cuenta;
-        $this->saldo = $saldo;
         $this->id_usuario = $id_usuario;
-
-    }
-    public function getIdCuenta() {
-            return $this->id_cuenta;
-    }
-    public function getSaldo() {
-        return $this->saldo;
+        $this->saldo = $saldo;
     }
 
-    public function getIdUsuario() {
+    /**
+     * Get the value of id_cuenta
+     */ 
+    public function getId_cuenta()
+    {
+        return $this->id_cuenta;
+    }
+
+    /**
+     * Get the value of id_usuario
+     */ 
+    public function getId_usuario()
+    {
         return $this->id_usuario;
     }
 
-    public function setIdCuenta($id_cuenta) {
-        $this->id_cuenta = $id_cuenta;
-    }
-    public function setSaldo($saldo) {
-        $this->saldo = $saldo;
-    }
-    public function setIdUsuario($id_usuario) {
-        $this->id_usuario = $id_usuario;
+    /**
+     * Get the value of saldo
+     */ 
+    public function getSaldo()
+    {
+        return $this->saldo;
     }
 
-    public function obtenerCuentaId()
+    public function crear()
     {
-        $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO($this->id_cuenta);
-        $sql = $cuentaDAO->obtenerCuentaPorId();
-        $conexion->ejecutar($sql);
-        $fila = $conexion->registro();
-        if ($fila) {
-            $this->saldo = $fila['saldo'];
-            $this->id_usuario = $fila['id_usuario'];
-            return $this;
-        } else {
-            return null;
-        }
+        $conexion = new conexion();
+        $cuentaDAO = new cuentaDAO(
+            $this->id_cuenta,
+            $this->id_usuario,
+            $this->saldo
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($cuentaDAO->crear());
+        $conexion->cerrar();
+    }
+    public function obtenerCuenta()
+    {
+        $conexion = new conexion();
+        $cuentaDAO = new cuentaDAO(
+            $this->id_cuenta,
+            $this->id_usuario,
+            $this->saldo
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($cuentaDAO->obtenerCuenta());
+        $resultado = $conexion->registro();
+        $this->id_cuenta = $resultado['id_cuenta'];
+        $this->id_usuario = $resultado['id_usuario'];
+        $this->saldo = $resultado['saldo'];
         $conexion->cerrar();
     }
 
-    public function obtenerCuentaIdUsuario()
+    public function actualizarSaldo()
     {
-        $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO("","",$this->id_usuario);
-        $sql = $cuentaDAO->obtenerCuentaPorIdUsuario();
-        try{
-            $conexion->ejecutar($sql);
-            $fila = $conexion->registro();
-            if ($fila) {
-                $this->saldo = $fila['saldo'];
-                $this->id_usuario = $fila['id_usuario'];
-            } else {
-                return null;
-            }   
-            $conexion->cerrar();
-
-        }catch(Exception $e){
-            $e->getMessage();
-        }
-
-    }
-
-    public function modificarSaldo($cuenta, $nuevo_saldo)
-    {
-        $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO();
-        $sql = $cuentaDAO->modificarSaldo($cuenta->getIdCuenta, $nuevo_saldo);
-        try{
-            $conexion->ejecutar($sql);
-            $this->saldo = $nuevo_saldo;
-            $conexion->cerrar();
-        }catch(Exception $e){
-            return $e->getMessage();
-        }
-    }
-
-    public function crearCuenta()
-    {
-        $conexion = new Conexion();
-        $cuentaDAO = new cuentaDAO("","",$this->id_usuario);
-        $sql = $cuentaDAO->crearCuenta();
-        $conexion->ejecutar($sql);
+        $conexion = new conexion();
+        $cuentaDAO = new cuentaDAO(
+            $this->id_cuenta,
+            $this->id_usuario,
+            $this->saldo
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($cuentaDAO->actualizarSaldo());
         $conexion->cerrar();
     }
-
-
-
-
-
-
 }

@@ -184,4 +184,35 @@ class usuarioDAO
         ";
     }
 
+    public function editar()
+    {
+        return "
+            update usuario set 
+            apellidos = '" . $this->apellidos . "',
+            clave = md5('" . $this->clave . "'),
+            email = '" . $this->correo . "',
+            fecha_nac = '" . $this->fecha_Nac . "',
+            nombre = '" . $this->nombres . "',
+            telefono = " . $this->telefono . "
+            where id_usuario = '" . $this->id . "';
+        ";
+    }
+
+    public function obtenerUsuarioDestino()
+    {
+        return "
+            select id_usuario, nombre, apellidos, telefono, email, fecha_nac
+            from usuario
+            where telefono = " . $this->telefono . ";
+        ";
+    }
+
+    public function eliminar()
+    {
+        return "
+            delete from usuario
+            where id_usuario = '" . $this->id . "';
+        ";
+    }
+
 }

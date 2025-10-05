@@ -13,8 +13,7 @@ class Usuario
     private $correo;
     private $fecha_Nac;
 
-    public function __construct($nombres = ""
-    , $apellidos = "", $id = "", $clave = "", $telefono = "", $correo = "", $fecha_Nac = "")
+    public function __construct($nombres = "", $apellidos = "", $id = "", $clave = "", $telefono = "", $correo = "", $fecha_Nac = "")
     {
         $this->nombres = $nombres;
         $this->apellidos = $apellidos;
@@ -196,17 +195,77 @@ class Usuario
 
     public function crearUsuario()
     {
-        
+        $conexion = new conexion();
+        $usuarioDAO = new usuarioDAO(
+            $this->nombres, 
+            $this->apellidos, 
+            $this->id, 
+            $this->clave, 
+            $this->telefono, 
+            $this->correo, 
+            $this->fecha_Nac
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($usuarioDAO->registrar());
+        $conexion->cerrar();
     }
 
-    public function obtenerUsuarioTel()
+    public function Editar()
     {
-        
+        $conexion = new conexion();
+        $usuarioDAO = new usuarioDAO(
+            $this->nombres, 
+            $this->apellidos, 
+            $this->id, 
+            $this->clave, 
+            $this->telefono, 
+            $this->correo, 
+            $this->fecha_Nac
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($usuarioDAO->editar());
+        $conexion->cerrar();
     }
 
-    public function obtenerUsuarioDestino($telefono)
+    public function ver()
     {
-        
+        $conexion = new conexion();
+        $usuarioDAO = new usuarioDAO("", "", $this->id, "", "", "", "");
+        $conexion->abrir();
+        $conexion->ejecutar($usuarioDAO->obtenerUsuarioDestino());
+        if($conexion->filas() != 0)
+        {
+            $registro = $conexion->registro();
+            $this->id = $registro[0];
+            $this->nombres = $registro[1];
+            $this->apellidos = $registro[2];
+            $this->clave = $registro[3];
+            $this->telefono = $registro[4];
+            $this->correo = $registro[5];
+            $this->fecha_Nac = $registro[6];
+            $conexion->cerrar();
+            return true;
+        }else{
+            $this->id = "";
+            $conexion->cerrar();
+            return false;
+        }
+    }
+
+    public function eliminar()
+    {
+        $conexion = new conexion();
+        $usuarioDAO = new usuarioDAO("", "", $this->id, "", "", "", "");
+        $conexion->abrir();
+        $conexion->ejecutar($usuarioDAO->eliminar());
+        $this->id = "";
+        $this->nombres = "";
+        $this->apellidos = "";
+        $this->clave = "";
+        $this->telefono = "";
+        $this->correo = "";
+        $this->fecha_Nac = "";
+        $conexion->cerrar();
     }
     
     

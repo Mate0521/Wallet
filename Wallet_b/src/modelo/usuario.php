@@ -1,135 +1,212 @@
 <?php
+require_once 'src/config/conexion.php';
+require_once 'src/dao/usuarioDAO.php';
 
 class Usuario 
 {
 
-    private $id_usuario;
-    private $nombre;
+    private $nombres;
     private $apellidos;
-    private $correo;
-    private $telefono;
+    private $id;
     private $clave;
+    private $telefono;
+    private $correo;
+    private $fecha_Nac;
 
-
-    public function __construct($id_usuario=null, $nombre=null, $apellidos=null, $correo=null, $telefono=null, $clave=null) 
+    public function __construct($nombres = ""
+    , $apellidos = "", $id = "", $clave = "", $telefono = "", $correo = "", $fecha_Nac = "")
     {
-        $this->id_usuario = $id_usuario;
-        $this->nombre = $nombre;
+        $this->nombres = $nombres;
         $this->apellidos = $apellidos;
-        $this->correo = $correo;
-        $this->telefono = $telefono;
+        $this->id = $id;
         $this->clave = $clave;
+        $this->telefono = $telefono;
+        $this->correo = $correo;
+        $this->fecha_Nac = $fecha_Nac;
     }
-    public function getIdUsuario() {
-        return $this->id_usuario;
+    
+
+    /**
+     * Get the value of nombres
+     */ 
+    public function getNombres()
+    {
+        return $this->nombres;
     }
 
-    public function getNombre() {
-        return $this->nombre;
+    /**
+     * Set the value of nombres
+     *
+     * @return  self
+     */ 
+    public function setNombres($nombres)
+    {
+        $this->nombres = $nombres;
+
+        return $this;
     }
 
-    public function getApellidos() {
+    /**
+     * Get the value of apellidos
+     */ 
+    public function getApellidos()
+    {
         return $this->apellidos;
     }
 
-    public function getCorreo() {
-        return $this->correo;
+    /**
+     * Set the value of apellidos
+     *
+     * @return  self
+     */ 
+    public function setApellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
+
+        return $this;
     }
 
-    public function getTelefono() {
+    /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of clave
+     */ 
+    public function getClave()
+    {
+        return $this->clave;
+    }
+
+    /**
+     * Set the value of clave
+     *
+     * @return  self
+     */ 
+    public function setClave($clave)
+    {
+        $this->clave = $clave;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of telefono
+     */ 
+    public function getTelefono()
+    {
         return $this->telefono;
     }
 
-    public function getClave() {
-        return $this->clave;
-    }
-    public function setIdUsuario($id_usuario) {
-        $this->id_usuario = $id_usuario;
-    }
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
-    }
-    public function setApellidos($apellidos) {
-        $this->apellidos = $apellidos;
-    }
-    public function setCorreo($correo) {
-        $this->correo = $correo;
-    }
-    public function setTelefono($telefono) {
+    /**
+     * Set the value of telefono
+     *
+     * @return  self
+     */ 
+    public function setTelefono($telefono)
+    {
         $this->telefono = $telefono;
+
+        return $this;
     }
-    public function setClave($clave) {
-        $this->clave = $clave;
+
+    /**
+     * Get the value of correo
+     */ 
+    public function getCorreo()
+    {
+        return $this->correo;
+    }
+
+    /**
+     * Set the value of correo
+     *
+     * @return  self
+     */ 
+    public function setCorreo($correo)
+    {
+        $this->correo = $correo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fecha_Nac
+     */ 
+    public function getFecha_Nac()
+    {
+        return $this->fecha_Nac;
+    }
+
+    /**
+     * Set the value of fecha_Nac
+     *
+     * @return  self
+     */ 
+    public function setFecha_Nac($fecha_Nac)
+    {
+        $this->fecha_Nac = $fecha_Nac;
+
+        return $this;
     }
 
     public function autenticacion()
     {
-        $conexion = new Conexion();
-        $usuarioDAO = new usuarioDAO($conexion);
-        $sql = $usuarioDAO->autenticacion($this->telefono, $this->clave);
-        $conexion->ejecutar($sql);
-        $fila = $conexion->registro();
-        if ($fila) {
-            $this->id_usuario = $fila['id_usuario'];
-            $this->nombre = $fila['nombre'];
-            $this->apellidos = $fila['apellidos'];
-            $this->correo = $fila['correo'];
-            $this->telefono = $fila['telefono'];
-            $this->clave = $fila['clave'];
-            return $this;
-        } else {
-            return null;
+        $conexion = new conexion();
+        $usuarioDAO = new usuarioDAO(
+            $this->nombres, 
+            $this->apellidos, 
+            $this->id, 
+            $this->clave, 
+            $this->telefono, 
+            $this->correo, 
+            $this->fecha_Nac
+        );
+        $conexion->abrir();
+        $conexion->ejecutar($usuarioDAO->autenticar());
+        if($conexion->filas() != 0)
+        {
+            $registro = $conexion->registro();
+            $this->id = $registro[0];
+            $conexion->cerrar();
+            return true;
+        }else{
+            $this->id = "";
+            $conexion->cerrar();
+            return false;
         }
-        $conexion->cerrar();
+
     }
 
     public function crearUsuario()
     {
-        $conexion = new Conexion();
-        $usuarioDAO = new usuarioDAO($conexion);
-        $sql = $usuarioDAO->crearUsuario($this);
-        $conexion->ejecutar($sql);
-        $conexion->cerrar();
+        
     }
 
     public function obtenerUsuarioTel()
     {
-        $conexion = new Conexion();
-        $usuarioDAO = new usuarioDAO($conexion);
-        $sql = $usuarioDAO->obtenerUsuarioTel($this->telefono);
-        $conexion->ejecutar($sql);
-        $fila = $conexion->registro();
-        if ($fila) {
-            $this->id_usuario = $fila['id_usuario'];
-            $this->nombre = $fila['nombre'];
-            $this->apellidos = $fila['apellidos'];
-            $this->correo = $fila['correo'];
-            $this->telefono = $fila['telefono'];
-            $this->clave = $fila['clave'];
-            return $this;
-        } else {
-            return null;
-        }
-        $conexion->cerrar();
+        
     }
 
     public function obtenerUsuarioDestino($telefono)
     {
-        $conexion = new Conexion();
-        $usuarioDAO = new usuarioDAO($conexion);
-        $sql = $usuarioDAO->obtenerUsuarioDestino($telefono);
-        $conexion->ejecutar($sql);
-        $fila = $conexion->registro();
-        if ($fila) {
-            $this->id_usuario = $fila['id_usuario'];
-            $this->nombre = $fila['nombre'];
-            $this->apellidos = $fila['apellidos'];
-            $this->telefono = $fila['telefono'];
-            return $this;
-        } else {
-            return null;
-        }
-        $conexion->cerrar();
+        
     }
     
     

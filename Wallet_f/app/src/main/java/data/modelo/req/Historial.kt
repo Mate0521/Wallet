@@ -4,7 +4,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Autenticacion(
-    val telefono: String,
-    val clave: String
-): Parcelable
+data class Historial(val id_cuenta: String): Parcelable

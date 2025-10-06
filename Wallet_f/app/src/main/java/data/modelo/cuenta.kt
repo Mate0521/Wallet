@@ -4,7 +4,8 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class login(
-    val telefono : String,
-    val clave :String,
+data class cuenta(
+    val id: String?,
+    val saldo: Double?,
+    val id_usuario :String?,
 ): Parcelable

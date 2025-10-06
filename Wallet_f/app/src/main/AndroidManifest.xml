@@ -17,10 +17,10 @@ xmlns:tools="http://schemas.android.com/tools">
     android:theme="@style/Theme.Wallet_F"
     tools:targetApi="31">
     <activity
-        android:name="UI.LoginActivity"
+        android:name="ui.login.LoginActivity"
         android:exported="false" />
     <activity
-        android:name="UI.MainActivity"
+        android:name="ui.MainActivity"
         android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -28,6 +28,7 @@ xmlns:tools="http://schemas.android.com/tools">
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-</application>
+        <activity android:name="ui.panel_control.PanelControlActivity" />
+    </application>
 
 </manifest>

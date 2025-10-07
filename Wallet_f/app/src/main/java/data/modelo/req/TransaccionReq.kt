@@ -8,6 +8,6 @@ data class TransaccionReq(
     val monto: Double,
     val destino:String,
     val id_cuenta: String,
-    val id_tipo: String
+    var id_tipo: String
 
 ): Parcelable

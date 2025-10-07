@@ -78,18 +78,18 @@
         android:id="@+id/btnEnviar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="#2B2B2B"
         android:text="Enviar dinero"
         android:textAllCaps="false"
-        android:backgroundTint="#2B2B2B"
         android:textColor="#FFFFFF"
-        android:layout_marginTop="40dp"
-        android:layout_marginHorizontal="32dp"
         app:cornerRadius="16dp"
         app:icon="@android:drawable/ic_menu_send"
-        app:iconTint="#FFFFFF"
         app:iconPadding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tilMonto"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tilMonto" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

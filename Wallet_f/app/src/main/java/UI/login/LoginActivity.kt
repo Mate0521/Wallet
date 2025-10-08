@@ -41,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
         }
         btn_ingresar.setOnClickListener {
             loginVM.onLoginClick(edt_cel.text.toString().trim(), edt_pass.text.toString().trim())
+
         }
 
         loginVM.uiState.observe(this) { state ->

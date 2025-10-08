@@ -1,4 +1,6 @@
 <?php
+require_once ('../dao/cuentaDAO.php');
+require_once ('../conexion/conexion.php');
 class cuenta 
 {
     private $id_cuenta;
@@ -38,6 +40,7 @@ class cuenta
         $conexion = new Conexion();
         $cuentaDAO = new cuentaDAO($this->id_cuenta);
         $sql = $cuentaDAO->obtenerCuentaPorId();
+        $conexion->abrir();
         $conexion->ejecutar($sql);
         $fila = $conexion->registro();
         if ($fila) {
@@ -56,9 +59,11 @@ class cuenta
         $cuentaDAO = new cuentaDAO("","",$this->id_usuario);
         $sql = $cuentaDAO->obtenerCuentaPorIdUsuario();
         try{
+            $conexion->abrir();
             $conexion->ejecutar($sql);
             $fila = $conexion->registro();
             if ($fila) {
+                $this->id_cuenta = $fila['id_cuenta'];
                 $this->saldo = $fila['saldo'];
                 $this->id_usuario = $fila['id_usuario'];
             } else {

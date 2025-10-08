@@ -10,7 +10,6 @@ import repository.TransaccionRep
 
 
 sealed class FormsState {
-    object Idle : FormsState()
     object Espera : FormsState() // Representa el estado de carga
     object Aprovado: FormsState()
     data class Error(val message: String) : FormsState()
@@ -19,7 +18,7 @@ sealed class FormsState {
 class formsVM : ViewModel() {
     private val repo = TransaccionRep()
 
-    private val _state = MutableLiveData<FormsState>(FormsState.Idle)
+    private val _state = MutableLiveData<FormsState>()
 
     val uiState: LiveData<FormsState> = _state
 

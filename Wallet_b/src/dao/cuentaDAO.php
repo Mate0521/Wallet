@@ -25,7 +25,9 @@ class cuentaDAO
 
     //obtener la cuenta de un usuario por su id_usuario
     public function obtenerCuentaPorIdUsuario(){
-        return "SELECT * FROM cuenta WHERE id_usuario = '$this->id_usuario'";
+        return "SELECT  `id_cuenta`, `saldo`, `id_usuario`  
+                FROM cuenta 
+                WHERE id_usuario = '$this->id_usuario'";
     }
 
     //modificar el saldo de una cuenta

@@ -37,7 +37,6 @@ class LoginVM : ViewModel() {
             return
         }
 
-        // Inicia una corrutina para realizar el trabajo de red en segundo plano
         viewModelScope.launch() {
 
             _state.value = LoginState.Espera
@@ -48,14 +47,12 @@ class LoginVM : ViewModel() {
                 //  traemos los datos del usuario
                 usuarioData(telefono)
             }.onFailure { error ->
-                // notificar a la UI con el mensaje de error
                 _state.value = LoginState.Error(error.message ?: "Credenciales incorrectas")
             }
         }
     }
 
     private suspend fun usuarioData(telefono: String) {
-        // Asumiendo que el endpoint de 'entrada' también necesita las credenciales.
         val entradaRequest = Entrada(telefono)
         val dataResult = repo.entrar(entradaRequest)
 

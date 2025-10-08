@@ -2,7 +2,9 @@ package ui.forms
 
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -22,6 +24,8 @@ class EnviarActivity : AppCompatActivity()
     private lateinit var btn_enviar: Button
     private lateinit var et_telefono: TextView
     private lateinit var et_monto: TextView
+    private lateinit var progressBar: ProgressBar
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +49,7 @@ class EnviarActivity : AppCompatActivity()
         }
 
         btn_enviar.setOnClickListener {
+
             if (et_telefono.text.toString().isBlank() || et_monto.text.toString().isBlank()) {
                 Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -62,10 +67,17 @@ class EnviarActivity : AppCompatActivity()
 
         forms.uiState.observe(this){ uiState ->
             when(uiState){
-                FormsState.Aprovado -> TODO()
-                is FormsState.Error -> TODO()
-                FormsState.Espera -> TODO()
-                FormsState.Idle -> TODO()
+                FormsState.Aprovado -> {
+                    Toast.makeText(this, "Envío realizado con éxito", Toast.LENGTH_LONG).show()
+                    finish()
+                }
+                is FormsState.Error -> {
+                    Toast.makeText(this, "Error: ${uiState.message}", Toast.LENGTH_LONG).show()
+                }
+                FormsState.Espera -> {
+                    btn_enviar.isEnabled = false
+                    progressBar.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -76,5 +88,6 @@ class EnviarActivity : AppCompatActivity()
         btn_enviar = findViewById<Button>(R.id.btnEnviar)
         et_telefono = findViewById<TextView>(R.id.et_telefono)
         et_monto = findViewById<TextView>(R.id.et_monto)
+        progressBar = findViewById<ProgressBar>(R.id.progressBar)
     }
 }

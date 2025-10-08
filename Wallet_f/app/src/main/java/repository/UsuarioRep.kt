@@ -26,24 +26,16 @@ class UsuarioRep {
     }
 
     suspend fun entrar(entrada: Entrada): Result<EntradaRes> {
-        return try {
-            val response = apiService.traerDatos(entrada)
 
-            if (response.isSuccessful && response.body() != null) {
-                val datos = response.body()!!
+        return runCatching {
 
-                if (datos.usuario != null && datos.cuenta != null) {
-                    Result.success(datos)
-                } else {
-                    Result.failure(Exception("Los datos del usuario o la cuenta están incompletos."))
-                }
-            } else {
+            val datos = apiService.traerDatos(entrada)
 
-                Result.failure(Exception("Error del servidor: ${response.code()}"))
+            if (datos.usuario == null || datos.cuenta == null) {
+                throw IllegalStateException("La respuesta del servidor está incompleta.")
             }
-        } catch (e: Exception) {
 
-            Result.failure(Exception("Error de conexión: ${e.message}"))
+            datos
         }
     }
 }

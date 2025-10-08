@@ -26,15 +26,15 @@ interface ApiService {
 
     // ENTRADA (ej. dashboard o datos iniciales)
     @POST("entrada.php")
-    fun traerDatos(@Body entrada: Entrada): Response<EntradaRes>
+     suspend fun traerDatos(@Body entrada: Entrada): EntradaRes
 
     // HISTORIAL DE TRANSACCIONES
     @POST("historial.php")
-    fun obtenerHistorial(@Body historial: Historial): Response<List<Transaccion>>
+    suspend fun obtenerHistorial(@Body historial: Historial): Response<List<Transaccion>>
 
     // NOTIFICACIONES
     @POST("notificacion.php")
-    fun obtenerNotificaciones(@Body usuario: Usuario): Call<Map<String, Any>>
+    suspend fun obtenerNotificaciones(@Body usuario: Usuario): Call<Map<String, Any>>
 
     // TRANSACCIONES
     @POST("transaccion.php")

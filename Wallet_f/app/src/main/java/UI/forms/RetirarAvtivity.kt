@@ -69,7 +69,6 @@ class RetirarAvtivity : AppCompatActivity(){
                 FormsState.Aprovado -> TODO()
                 is FormsState.Error -> TODO()
                 FormsState.Espera -> TODO()
-                FormsState.Idle -> TODO()
             }
         }
     }

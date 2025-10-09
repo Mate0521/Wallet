@@ -82,6 +82,7 @@ class ConsignarAvtivity : AppCompatActivity() {
         }
     }
 
+
     private fun cargarDatos() {
         val phoneNumber = datosUser?.usuario?.telefono
 
@@ -114,3 +115,4 @@ class ConsignarAvtivity : AppCompatActivity() {
         }
     }
 }
+

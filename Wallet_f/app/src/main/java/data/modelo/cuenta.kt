@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class cuenta(
-    val id: String?,
-    val saldo: Double?,
+    val id_cuenta: String?,
+    var saldo: Double?,
     val id_usuario :String?,
 ): Parcelable

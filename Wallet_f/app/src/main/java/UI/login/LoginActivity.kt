@@ -76,6 +76,5 @@ class LoginActivity : AppCompatActivity() {
         val intent = Intent(this, PanelControlActuvity::class.java)
         intent.putExtra("DATOS_ENTRADA", datos)
         startActivity(intent)
-        finish()
     }
 }

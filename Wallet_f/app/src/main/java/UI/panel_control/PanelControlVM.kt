@@ -28,7 +28,7 @@ class PanelControlVM : ViewModel()
     //lo que ve la activity
     val uiState: LiveData<PanelState> = _uiState
 
-    fun cargarDatos(datos: EntradaRes)
+    fun cargarHistorial(datos: EntradaRes)
     {
         if (datos.usuario != null && datos.cuenta != null)
         {
@@ -39,7 +39,7 @@ class PanelControlVM : ViewModel()
             _uiState.value= PanelState.Loading
             try
             {
-                val historial = repo.traerHistorial(datos.cuenta?.id)
+                val historial = repo.traerHistorial(datos.cuenta?.id_cuenta)
 
                 _uiState.value= PanelState.Success(
                     datos.usuario?.nombre.toString(),
@@ -51,5 +51,31 @@ class PanelControlVM : ViewModel()
 
             }
         }
+    }
+    fun cargarDatos(datos: String?) {
+        if (datos == null)
+        {
+            _uiState.value= PanelState.Error("No se recibieron los datos")
+            return
+        }
+        viewModelScope.launch{
+            _uiState.value= PanelState.Loading
+            try
+            {
+                val actual=repo.cargarSaldo(datos)
+
+                _uiState.value= PanelState.Success(
+                    actual.getOrNull()?.usuario?.nombre.toString(),
+                    actual.getOrNull()?.cuenta?.saldo.toString().toDouble(),
+                    emptyList()
+                )
+
+
+            }catch (e: Exception){
+
+            }
+        }
+
+
     }
 }

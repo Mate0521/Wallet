@@ -48,16 +48,15 @@ class PanelControlActuvity : AppCompatActivity() {
 
         val entradaRes: EntradaRes? by lazy {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                // Forma segura para Android 13 y superior
                 intent.getParcelableExtra("DATOS_ENTRADA", EntradaRes::class.java)
             } else {
-                // Forma antigua (deprecated) para versiones anteriores
                 @Suppress("DEPRECATION")
                 intent.getParcelableExtra<EntradaRes>("DATOS_ENTRADA")
             }
         }
 
-        txt_monto.text="$ ${entradaRes?.cuenta?.saldo}"
+        panelVM.cargarDatos(entradaRes?.usuario?.telefono.toString())
+
 
         listener(entradaRes)
 
@@ -79,7 +78,6 @@ class PanelControlActuvity : AppCompatActivity() {
                 is PanelState.Success -> {
                     findViewById<View>(R.id.linearLayout).visibility = View.VISIBLE
                     findViewById<View>(R.id.linearLayout2).visibility = View.VISIBLE
-
 
                     txt_monto.text = uiState.saldo.toString()
 
@@ -121,23 +119,21 @@ class PanelControlActuvity : AppCompatActivity() {
         btn_enviar.setOnClickListener {  //enviar a formulario de envio
             datos?.let {
                 val intent = Intent(this, EnviarActivity::class.java)
-                intent.putExtra("DATOS", it)
+                intent.putExtra("DATOS_ENTRADA", it)
                 startActivity(intent)
             }
         }
         bnt_consignar.setOnClickListener { //mostrar codigo qr personal o por el momento el numero
             datos?.let {
                 val intent = Intent(this, ConsignarAvtivity::class.java)
-                intent.putExtra("ENTRADA_RES", it)
-                intent.putExtra("TIPO_OPERACION", "CONSIGNAR")
+                intent.putExtra("DATOS_ENTRADA", it)
                 startActivity(intent)
             }
         }
         btn_retirar.setOnClickListener { //mostrar codigo qr personal o por el momento el numero
             datos?.let {
                 val intent = Intent(this, RetirarAvtivity::class.java)
-                intent.putExtra("ENTRADA_RES", it)
-                intent.putExtra("TIPO_OPERACION", "RETIRAR")
+                intent.putExtra("DATOS_ENTRADA", it)
                 startActivity(intent)
             }
         }

@@ -66,6 +66,7 @@ class cuenta
                 $this->id_cuenta = $fila['id_cuenta'];
                 $this->saldo = $fila['saldo'];
                 $this->id_usuario = $fila['id_usuario'];
+                return $this;
             } else {
                 return null;
             }   
@@ -81,11 +82,13 @@ class cuenta
     {
         $conexion = new Conexion();
         $cuentaDAO = new cuentaDAO();
-        $sql = $cuentaDAO->modificarSaldo($cuenta->getIdCuenta, $nuevo_saldo);
+        $sql = $cuentaDAO->modificarSaldo($cuenta, $nuevo_saldo);
         try{
+            $conexion->abrir();
             $conexion->ejecutar($sql);
             $this->saldo = $nuevo_saldo;
             $conexion->cerrar();
+            return true;
         }catch(Exception $e){
             return $e->getMessage();
         }

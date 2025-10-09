@@ -14,7 +14,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.wallet_f.R
 import data.modelo.req.TransaccionReq
 import data.modelo.res.EntradaRes
-import ui.login.LoginState
 
 
 class EnviarActivity : AppCompatActivity()
@@ -25,6 +24,15 @@ class EnviarActivity : AppCompatActivity()
     private lateinit var et_telefono: TextView
     private lateinit var et_monto: TextView
     private lateinit var progressBar: ProgressBar
+
+    val datosUser: EntradaRes? by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("DATOS_ENTRADA", EntradaRes::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra<EntradaRes>("DATOS_ENTRADA")
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,13 +47,10 @@ class EnviarActivity : AppCompatActivity()
             insets
         }
 
-        val datosUser: EntradaRes? by lazy {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                intent.getParcelableExtra("DATOS", EntradaRes::class.java)
-            } else {
-                @Suppress("DEPRECATION")
-                intent.getParcelableExtra<EntradaRes>("DATOS")
-            }
+        if (datosUser == null) {
+            Toast.makeText(this, "Error crítico: No se recibieron los datos del usuario.", Toast.LENGTH_LONG).show()
+            finish()
+            return
         }
 
         btn_enviar.setOnClickListener {
@@ -55,11 +60,11 @@ class EnviarActivity : AppCompatActivity()
                 return@setOnClickListener
             }
 
-            val transaccion: TransaccionReq = TransaccionReq(
-                id_cuenta = datosUser?.cuenta?.id.toString(),
+            val transaccion = TransaccionReq(
+                id_cuenta = datosUser!!.cuenta?.id_cuenta.toString(),
                 monto = et_monto.text.toString().toDouble(),
                 destino = et_telefono.text.toString(),
-                id_tipo = ""
+                tipo = ""
             )
 
             forms.enviar(transaccion)
@@ -69,6 +74,7 @@ class EnviarActivity : AppCompatActivity()
             when(uiState){
                 FormsState.Aprovado -> {
                     Toast.makeText(this, "Envío realizado con éxito", Toast.LENGTH_LONG).show()
+                    datosUser!!.cuenta?.saldo = datosUser!!.cuenta?.saldo?.toDouble()?.minus(et_monto.text.toString().toDouble())
                     finish()
                 }
                 is FormsState.Error -> {
@@ -77,6 +83,11 @@ class EnviarActivity : AppCompatActivity()
                 FormsState.Espera -> {
                     btn_enviar.isEnabled = false
                     progressBar.visibility = View.VISIBLE
+                }
+
+                FormsState.Idle -> {
+                    btn_enviar.isEnabled = true
+                    progressBar.visibility = View.GONE
                 }
             }
         }

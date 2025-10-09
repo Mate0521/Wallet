@@ -8,6 +8,7 @@ import data.modelo.req.Entrada
 import data.modelo.req.Historial
 import data.modelo.req.TransaccionReq
 import data.modelo.res.EntradaRes
+import data.modelo.res.Mensaje
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -38,9 +39,10 @@ interface ApiService {
 
     // TRANSACCIONES
     @POST("transaccion.php")
-    fun registrarTransaccion(@Body transaccion: TransaccionReq): Response<Unit>
+    suspend fun registrarTransaccion(@Body transaccion: TransaccionReq): Mensaje
 
     // REGISTRO / GESTIÓN DE USUARIOS
     @POST("usuario.php")
     fun registrarUsuario(@Body usuario: Usuario): Call<Map<String, Any>>
+
 }

@@ -10,6 +10,7 @@ import repository.TransaccionRep
 
 
 sealed class FormsState {
+    object Idle : FormsState()
     object Espera : FormsState() // Representa el estado de carga
     object Aprovado: FormsState()
     data class Error(val message: String) : FormsState()
@@ -18,7 +19,7 @@ sealed class FormsState {
 class formsVM : ViewModel() {
     private val repo = TransaccionRep()
 
-    private val _state = MutableLiveData<FormsState>()
+    private val _state = MutableLiveData<FormsState>(FormsState.Idle)
 
     val uiState: LiveData<FormsState> = _state
 
@@ -28,11 +29,8 @@ class formsVM : ViewModel() {
             _state.value = FormsState.Error("Todos los campos son obligatorios.")
             return
         }
-        transaccion.id_tipo = "1"
-        viewModelScope.launch {
-            _state.value = FormsState.Espera
-            val enviarResult = repo.movimiento(transaccion)
-        }
+        transaccion.tipo = "1"
+        realizarMovimiento(transaccion)
     }
 
     fun retirar(transaccion: TransaccionReq){
@@ -40,11 +38,8 @@ class formsVM : ViewModel() {
             _state.value = FormsState.Error("Todos los campos son obligatorios.")
             return
         }
-        transaccion.id_tipo = "5"
-        viewModelScope.launch {
-            _state.value = FormsState.Espera
-            val enviarResult = repo.movimiento(transaccion)
-        }
+        transaccion.tipo = "7"
+        realizarMovimiento(transaccion)
 
     }
     fun consignar(transaccion: TransaccionReq){
@@ -52,12 +47,24 @@ class formsVM : ViewModel() {
             _state.value = FormsState.Error("Todos los campos son obligatorios.")
             return
         }
-        transaccion.id_tipo = "7"
-        viewModelScope.launch {
-            _state.value = FormsState.Espera
-            val enviarResult = repo.movimiento(transaccion)
-        }
+        transaccion.tipo = "5"
+        realizarMovimiento(transaccion)
 
     }
 
+    fun realizarMovimiento( transaccion: TransaccionReq)
+    {
+        viewModelScope.launch {
+            _state.value = FormsState.Espera
+            val movimientoResult = repo.movimiento(transaccion)
+
+            movimientoResult.onSuccess {
+                _state.value = FormsState.Aprovado
+            }
+
+            movimientoResult.onFailure { exception ->
+                _state.value = FormsState.Error(exception.message ?: "Ocurrió un error inesperado")
+            }
+        }
+    }
 }

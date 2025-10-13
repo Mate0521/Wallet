@@ -16,11 +16,11 @@ class usuarioDAO
 
     public function autenticacion($tel, $clave )
     {
-        return "SELECT * FROM usuario WHERE telefono = '$tel' AND clave = '". md5($clave)."'";
+        return "SELECT `id_usuario` FROM usuario WHERE `telefono` = '$tel' AND `clave` = '$clave'";
     }
 
     public function obtenerUsuarioTel($tel)
     {
-        return "SELECT telefono FROM usuario WHERE telefono = '$tel'";
+        return "SELECT `id_usuario`, `nombre`, `apellidos`, `fecha_nac`, `telefono`, `email`, `clave` FROM `usuario` WHERE `telefono` = $tel;";
     }
 }

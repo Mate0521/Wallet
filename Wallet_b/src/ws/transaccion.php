@@ -4,17 +4,28 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET");
 header("Access-Control-Allow-Headers: Content-Type");
 
+require_once ('../modelo/cuenta.php');
+require_once ('../modelo/usuario.php');
+require_once ('../modelo/tipo.php'); 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents("php://input");
     $data = json_decode($json, true);
 
     $cuenta = new cuenta();
-
+    $usuario = new Usuario();
 
     $monto = $data['monto'];
     $fecha = date('Y-m-d H:i:s');
 
     $usuarioDestino = $usuario->obtenerUsuarioDestino($data['destino']);
+    if ($usuarioDestino == null) {
+        echo json_encode(array("mensaje" => "El usuario destino no existe",
+        "exito" => false
+        ));
+        http_response_code(401);
+        exit();
+    }
 
     $cuentaDestino = new Cuenta();
     $cuentaDestino->setIdUsuario($usuarioDestino->getIdUsuario());
@@ -32,18 +43,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (($cuentaDestino!=null && $cuentaOrigen->getSaldo() >= $monto ) || (hash_equals("consignar", $part[0]) && $cuentaDestino!=null)){
 
+        if($cuentaDestino->getIdCuenta() == $cuentaOrigen->getIdCuenta() && hash_equals("enviar", $part[0])){
+            echo json_encode(array("mensaje" => "No se puede enviar a la misma cuenta",
+            "exito" => false
+            ));
+            http_response_code(401);
+            exit();
+        }
+
 
         $map =
         [
             "enviar" => function() use ($monto, $cuentaOrigen, $cuentaDestino) {
-                return $cuentaOrigen->modificarSaldo($cuentaOrigen, $cuentaOrigen->getSaldo() - $monto)
-                    && ($cuentaDestino !== null ? $cuentaDestino->modificarSaldo($cuentaDestino, $cuentaDestino->getSaldo() + $monto) : false);
+
+                $saldo1 = $cuentaOrigen->getSaldo() - $monto;
+                $saldo2 = $cuentaDestino->getSaldo() + $monto;
+
+                $ok1 = $cuentaOrigen->modificarSaldo($cuentaOrigen->getIdCuenta(), $saldo1);
+                $ok2 = $cuentaDestino->modificarSaldo($cuentaDestino->getIdCuenta(), $saldo2);
+                if ($ok1 && $ok2) {
+                    return true;
+                } else {
+                    return false;
+                }
             },
-            "consignar"=> function() use($cuenta, $cuentaOrigen,$monto){
-                $cuenta->modificarSaldo($cuentaOrigen, $cuentaOrigen->getSaldo()+$monto);
+            "consignar"=> function() use($cuentaOrigen,$monto){
+                return $cuentaOrigen->modificarSaldo($cuentaOrigen->getIdCuenta(), $cuentaOrigen->getSaldo()+$monto);
             },
-            "retirar"=> function() use($cuenta, $cuentaOrigen,$monto){
-                $cuenta->modificarSaldo($cuentaOrigen, $cuentaOrigen->getSaldo()-$monto);
+            "retirar"=> function() use( $cuentaOrigen,$monto){
+                return $cuentaOrigen->modificarSaldo($cuentaOrigen->getIdCuenta(), $cuentaOrigen->getSaldo()-$monto);
             }
             
         ];
@@ -51,15 +79,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($map[$part[0]])){
             $respuesta = $map[$part[0]]();
 
-            if ($resultado) {
+            if ($respuesta) {
+                echo json_encode(array("mensaje" => "Transacción realizada con éxito",
+                "exito" =>true
+                ));
                 http_response_code(200);
             } else {
+                echo json_encode(array("mensaje" => "Error en la transacción",
+                "exito" => false
+                ));
                 http_response_code(401);
             }
         } else {
-            echo "accion no registrada";
+            echo json_encode(array("mensaje" => "Acción no registrada",
+            "exito" => false
+            ));
         }
 
+    } else {
+        echo json_encode(array("mensaje" => "Fondos insuficientes o cuenta destino no existe"));
+        http_response_code(401);
     }
 
 }

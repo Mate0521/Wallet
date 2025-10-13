@@ -1,4 +1,6 @@
 <?php
+require_once ('../conexion/conexion.php');
+require_once ('../dao/usuarioDAO.php');
 
 class Usuario 
 {
@@ -67,20 +69,11 @@ class Usuario
         $conexion = new Conexion();
         $usuarioDAO = new usuarioDAO($conexion);
         $sql = $usuarioDAO->autenticacion($this->telefono, $this->clave);
+        $conexion->abrir();
         $conexion->ejecutar($sql);
         $fila = $conexion->registro();
-        if ($fila) {
-            $this->id_usuario = $fila['id_usuario'];
-            $this->nombre = $fila['nombre'];
-            $this->apellidos = $fila['apellidos'];
-            $this->correo = $fila['correo'];
-            $this->telefono = $fila['telefono'];
-            $this->clave = $fila['clave'];
-            return $this;
-        } else {
-            return null;
-        }
         $conexion->cerrar();
+        return ($fila) ? true : false;
     }
 
     public function crearUsuario()
@@ -88,6 +81,7 @@ class Usuario
         $conexion = new Conexion();
         $usuarioDAO = new usuarioDAO($conexion);
         $sql = $usuarioDAO->crearUsuario($this);
+        $conexion->abrir();
         $conexion->ejecutar($sql);
         $conexion->cerrar();
     }
@@ -97,20 +91,27 @@ class Usuario
         $conexion = new Conexion();
         $usuarioDAO = new usuarioDAO($conexion);
         $sql = $usuarioDAO->obtenerUsuarioTel($this->telefono);
-        $conexion->ejecutar($sql);
-        $fila = $conexion->registro();
-        if ($fila) {
-            $this->id_usuario = $fila['id_usuario'];
-            $this->nombre = $fila['nombre'];
-            $this->apellidos = $fila['apellidos'];
-            $this->correo = $fila['correo'];
-            $this->telefono = $fila['telefono'];
-            $this->clave = $fila['clave'];
-            return $this;
-        } else {
+        try {
+            $conexion->abrir();
+            $conexion->ejecutar($sql);
+            $fila = $conexion->registro();
+            $conexion->cerrar();
+
+            if ($fila && is_array($fila)) {
+                $this->id_usuario = $fila['id_usuario'] ?? null;
+                $this->nombre = $fila['nombre'] ?? null;
+                $this->apellidos = $fila['apellidos'] ?? null;
+                $this->correo = $fila['email'] ?? null;
+                $this->telefono = $fila['telefono'] ?? null;
+                return $this;
+            } else {
+                return null;
+            }
+        } catch (Exception $e) {
+            // opcional: log $e->getMessage();
+            if (isset($conexion)) { $conexion->cerrar(); }
             return null;
         }
-        $conexion->cerrar();
     }
 
     public function obtenerUsuarioDestino($telefono)
@@ -118,18 +119,20 @@ class Usuario
         $conexion = new Conexion();
         $usuarioDAO = new usuarioDAO($conexion);
         $sql = $usuarioDAO->obtenerUsuarioDestino($telefono);
+        $conexion->abrir();
         $conexion->ejecutar($sql);
         $fila = $conexion->registro();
-        if ($fila) {
-            $this->id_usuario = $fila['id_usuario'];
-            $this->nombre = $fila['nombre'];
-            $this->apellidos = $fila['apellidos'];
-            $this->telefono = $fila['telefono'];
+        $conexion->cerrar();
+
+        if ($fila && is_array($fila)) {
+            $this->id_usuario = $fila['id_usuario'] ?? null;
+            $this->nombre = $fila['nombre'] ?? null;
+            $this->apellidos = $fila['apellidos'] ?? null;
+            $this->telefono = $fila['telefono'] ?? null;
             return $this;
         } else {
             return null;
         }
-        $conexion->cerrar();
     }
     
     

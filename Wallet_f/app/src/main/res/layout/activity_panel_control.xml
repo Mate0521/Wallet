@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/panel_control"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F2F8"
+    android:padding="16dp">
+
+    <!-- 🔹 Barra superior -->
+
+    <!-- 🔹 Tarjeta grande principal -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="#F1ECF6"
+        android:clipToOutline="true"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardsList">
+
+        <TextView
+            android:id="@+id/txt_header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Header"
+            android:textColor="#222"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_subhead1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subhead"
+            android:textColor="#555"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="#F1ECF6"
+        android:clipToOutline="true"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/txt_header2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Header"
+            android:textColor="#222"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_subhead2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subhead"
+            android:textColor="#555"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="#F1ECF6"
+        android:clipToOutline="true"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomActions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.49">
+
+        <TextView
+            android:id="@+id/txt_header3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Header"
+            android:textColor="#222"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_subhead3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Subhead"
+            android:textColor="#555"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/headerBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="#ECE7F4"
+        android:clipToOutline="true"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Wallet"
+            android:textColor="#2A2A2A"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/user_icon" />
+    </LinearLayout>
+
+    <!-- 🔹 Tarjeta lateral -->
+
+    <!-- 🔹 Lista de 3 tarjetas -->
+
+    <!-- 🔹 Botonera inferior -->
+
+    <LinearLayout
+        android:id="@+id/summaryCard"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="20dp"
+        android:background="#D9D2E9"
+        android:clipToOutline="true"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerBar"
+        app:layout_constraintWidth_default="spread">
+
+        <TextView
+            android:id="@+id/txt_saldo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Saldo disponible"
+            android:textColor="#444"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/txt_monto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="$1,250.00"
+            android:textColor="#111"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/cardsList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/summaryCard">
+
+        <!-- Reutiliza este bloque para más tarjetas -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="320dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardsList">
+
+        <Button
+            android:id="@+id/btn_consignar"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#222"
+            android:text="Consignar"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/btn_retirar"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#222"
+            android:text="Retirar"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/btn_enviar"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:backgroundTint="#222"
+            android:text="Enviar"
+            android:textAllCaps="false"
+            android:textColor="#fff" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

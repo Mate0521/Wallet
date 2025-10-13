@@ -1,10 +1,16 @@
 package data.network
 
-import data.modelo.login
 import data.modelo.Transaccion
 import data.modelo.Usuario
-import data.modelo.res.Entrada
+import data.modelo.cuenta
+import data.modelo.req.Autenticacion
+import data.modelo.req.Entrada
+import data.modelo.req.Historial
+import data.modelo.req.TransaccionReq
+import data.modelo.res.EntradaRes
+import data.modelo.res.Mensaje
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -13,29 +19,30 @@ interface ApiService {
 
     // LOGIN / AUTENTICACIÓN
     @POST("autenticacion.php")
-    fun autenticarUsuario(@Body usuario: Usuario): Call<Map<String, Any>>
+    suspend fun autenticarUsuario(@Body autenticacion: Autenticacion): Response<Unit>
 
     // CUENTA
     @POST("cuenta.php")
-    fun obtenerCuenta(@Body cuenta: login): Call<Map<String, Any>>
+    fun obtenerCuenta(@Body cuenta: cuenta): Call<Map<String, Any>>
 
     // ENTRADA (ej. dashboard o datos iniciales)
     @POST("entrada.php")
-    fun traerDatos(@Body usuario: Usuario): Call<Entrada>
+     suspend fun traerDatos(@Body entrada: Entrada): EntradaRes
 
     // HISTORIAL DE TRANSACCIONES
     @POST("historial.php")
-    fun obtenerHistorial(@Body usuario: Usuario): Call<Map<String, Any>>
+    suspend fun obtenerHistorial(@Body historial: Historial): Response<List<Transaccion>>
 
     // NOTIFICACIONES
     @POST("notificacion.php")
-    fun obtenerNotificaciones(@Body usuario: Usuario): Call<Map<String, Any>>
+    suspend fun obtenerNotificaciones(@Body usuario: Usuario): Call<Map<String, Any>>
 
     // TRANSACCIONES
     @POST("transaccion.php")
-    fun registrarTransaccion(@Body transaccion: Transaccion): Call<Map<String, Any>>
+    suspend fun registrarTransaccion(@Body transaccion: TransaccionReq): Mensaje
 
     // REGISTRO / GESTIÓN DE USUARIOS
     @POST("usuario.php")
     fun registrarUsuario(@Body usuario: Usuario): Call<Map<String, Any>>
+
 }

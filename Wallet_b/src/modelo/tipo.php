@@ -1,4 +1,6 @@
 <?php 
+require_once ('../conexion/conexion.php');
+require_once ('../dao/tipoDAO.php');
 
 class tipo
 {
@@ -25,8 +27,9 @@ class tipo
 
     public function obtenerNombre(){
         $conexion = new Conexion();
-        $tipoDAO = new tipoDAO($conexion);
-        $sql = $tipoDAO->obtenerNombre($this->id_tipo);
+        $tipoDAO = new tipoDAO($this->id_tipo);
+        $sql = $tipoDAO->obtenerNombre();
+        $conexion->abrir();
         $conexion->ejecutar($sql);
         $fila = $conexion->registro();
         if ($fila) {

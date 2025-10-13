@@ -20,16 +20,22 @@ class cuentaDAO
 
     //obtener la cuenta de un usuario por su id_cuenta
     public function obtenerCuentaPorId(){
-        return "SELECT * FROM cuenta WHERE id_cuenta = '$this->id_cuenta'";
+        return "SELECT `saldo`, `id_usuario`
+                FROM cuenta 
+                WHERE id_cuenta = '$this->id_cuenta'";
     }
 
     //obtener la cuenta de un usuario por su id_usuario
     public function obtenerCuentaPorIdUsuario(){
-        return "SELECT * FROM cuenta WHERE id_usuario = '$this->id_usuario'";
+        return "SELECT  `id_cuenta`, `saldo`, `id_usuario`  
+                FROM cuenta 
+                WHERE id_usuario = '$this->id_usuario'";
     }
 
     //modificar el saldo de una cuenta
     public function modificarSaldo($id_cuenta, $nuevo_saldo){
-        return "UPDATE cuenta SET saldo = '$nuevo_saldo' WHERE id_cuenta = '$id_cuenta'";
+        return "UPDATE `cuenta` 
+                SET `saldo`='$nuevo_saldo' 
+                WHERE `id_cuenta`= $id_cuenta";
     }
 }

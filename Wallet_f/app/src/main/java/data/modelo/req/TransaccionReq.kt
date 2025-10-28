@@ -4,10 +4,10 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Transaccion(
+data class TransaccionReq(
     val monto: Double,
     val destino:String,
     val id_cuenta: String,
-    val id_tipo: String
+    var tipo: String
 
 ): Parcelable

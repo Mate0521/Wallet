@@ -11,5 +11,7 @@ data class Usuario(
     val apellidos: String,
     val correo: String,
     val telefono: String,
-    val clave: String
+    val clave: String?
 ): Parcelable
+
+

@@ -1,55 +1,41 @@
 package repository
 
-import data.modelo.res.Entrada
-import data.modelo.Usuario
+import data.modelo.res.EntradaRes
+import data.modelo.req.Autenticacion
+import data.modelo.req.Entrada
 import data.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class UsuarioRep {
-    private val api = RetrofitClient.api
+    private val apiService = RetrofitClient.apiService
 
-    fun autenticar(usuario: Usuario, callback: (exito: Boolean, mensaje: String) -> Unit) {
-        api.autenticarUsuario(usuario).enqueue(object : Callback<Map<String, Any>> {
-            override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
-                val mensaje = response.body()?.get("mensaje") ?: "Sin respuesta"
-                if (response.isSuccessful) {
-                    callback(true, mensaje.toString())
-                } else {
-                    callback(false, mensaje.toString())
-                }
+    suspend fun autenticar(autentificacion: Autenticacion): Result<Boolean> {
+        // 2. El bloque try-catch ahora envuelve la expresión completa para manejar errores de red o de la API
+        return try {
+            val response = apiService.autenticarUsuario(autentificacion)
+
+            if (response.isSuccessful) {
+                Result.success(true)
+            } else {
+                // Devolvemos una excepción con un mensaje más descriptivo
+                Result.failure(Exception("Credenciales no válidas (código: ${response.code()})"))
             }
-            override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
-                callback(false, "Error de conexión: ${t.message}")
-            }
-        })
+        } catch (e: Exception) {
+            // 3. El bloque catch ahora devuelve un resultado de fallo
+            Result.failure(Exception("Error de conexión: ${e.message}"))
+        }
     }
 
-    fun entrar(usuario: Usuario, callback: (exito: Boolean, datos: Entrada?, mensaje: String) -> Unit) {
-        api.traerDatos(usuario).enqueue(object : Callback<Entrada> {
-            override fun onResponse(call: Call<Entrada>, response: Response<Entrada>) {
-                if (response.isSuccessful) {
-                    val datosCompletos = response.body()
+    suspend fun entrar(entrada: Entrada): Result<EntradaRes> {
 
-                    // Ahora la comprobación es mucho más simple y segura
-                    if (datosCompletos?.usuario != null && datosCompletos.cuenta != null) {
-                        // Éxito: Pasamos el objeto completo directamente
-                        callback(true, datosCompletos, "Datos obtenidos correctamente.")
-                    } else {
-                        // Fallo lógico: El usuario o la cuenta vinieron nulos
-                        callback(false, null, "No se encontraron datos para este usuario.")
-                    }
-                } else {
-                    // Error del servidor
-                    callback(false, null, "Error del servidor: ${response.code()}")
-                }
+        return runCatching {
+
+            val datos = apiService.traerDatos(entrada)
+
+            if (datos.usuario == null || datos.cuenta == null) {
+                throw IllegalStateException("La respuesta del servidor está incompleta.")
             }
 
-            override fun onFailure(call: Call<Entrada>, t: Throwable) {
-                // Error de red
-                callback(false, null, "Error de conexión: ${t.message}")
-            }
-        })
+            datos
+        }
     }
 }

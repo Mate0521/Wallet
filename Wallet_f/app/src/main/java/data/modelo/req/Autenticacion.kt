@@ -1,7 +1,10 @@
 package data.modelo.req
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Autenticacion(
-    val id_cuenta: String,
-    val saldo: String,
-    val id_usuario: String
-)
+    val telefono: String,
+    val clave: String
+): Parcelable
